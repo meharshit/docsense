@@ -1,0 +1,29 @@
+{
+  "name": "@docsense/runtime",
+  "version": "0.1.0",
+  "description": "Browser/Node runtime helpers for loading and querying a Docsense index.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@docsense/core": "0.1.0",
+    "@docsense/indexer": "0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@docsense/example-basic",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "index": "node ./scripts/build-index.mjs",
+    "search": "node ./scripts/search.mjs"
+  },
+  "dependencies": {
+    "@docsense/core": "0.1.0",
+    "@docsense/indexer": "0.1.0"
+  }
+}

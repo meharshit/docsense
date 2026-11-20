@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/indexer" },
+    { "path": "./packages/runtime" },
+    { "path": "./packages/docusaurus-plugin" }
+  ]
+}
