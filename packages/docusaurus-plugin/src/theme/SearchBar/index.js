@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom';
 import { usePluginData } from '@docusaurus/useGlobalData';
 import { useThemeConfig } from '@docusaurus/theme-common';
+import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 import { DocsenseClient } from '@docsense/runtime';
 import {
   DEFAULT_RESULT_LIMIT,
@@ -104,9 +105,14 @@ function snippetText(hit) {
   return body ? body.snippet : '';
 }
 
+function sitePath(path) {
+  return String(path || '').replace(/^\//, '');
+}
+
 export default function SearchBar(props) {
   const config = useDocsenseConfig();
   const searchBar = { ...config.searchBar, ...(props || {}) };
+  const { withBaseUrl } = useBaseUrlUtils();
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -117,9 +123,12 @@ export default function SearchBar(props) {
   const [limit, setLimit] = useState(config.resultLimit);
   const inputRef = useRef(null);
 
+  // Respect Docusaurus baseUrl (required for GitHub Pages project sites).
+  const indexUrl = withBaseUrl(sitePath(config.indexPath || 'docsense/search-index.json'));
+
   const client = useMemo(
-    () => new DocsenseClient({ indexUrl: config.indexPath }),
-    [config.indexPath],
+    () => new DocsenseClient({ indexUrl }),
+    [indexUrl],
   );
 
   const openModal = useCallback(() => setOpen(true), []);
@@ -218,19 +227,20 @@ export default function SearchBar(props) {
   );
 
   const go = (hit) => {
+    const targetUrl = withBaseUrl(sitePath(hit.url));
     const q = query.trim();
     if (q) {
       try {
         sessionStorage.setItem(
           HIGHLIGHT_STORAGE_KEY,
-          JSON.stringify(buildPendingHighlight(q, hit.url)),
+          JSON.stringify(buildPendingHighlight(q, targetUrl)),
         );
       } catch {
         // Private mode / blocked storage — navigation still works.
       }
     }
     closeModal();
-    window.location.assign(hit.url);
+    window.location.assign(targetUrl);
   };
 
   const onKeyDown = (event) => {

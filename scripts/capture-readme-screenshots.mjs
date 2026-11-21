@@ -18,7 +18,7 @@ async function shot(name) {
   console.log('wrote', path);
 }
 
-await page.goto('http://127.0.0.1:3400/docs/intro', {
+await page.goto('http://127.0.0.1:3400/docsense/docs/intro/', {
   waitUntil: 'networkidle0',
 });
 
