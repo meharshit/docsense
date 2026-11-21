@@ -182,7 +182,8 @@ export function parseMarkdownDocument(
   };
 
   const sections: MutableSection[] = [];
-  let current: MutableSection | null = null;
+  // Object holder so nested helpers can update the active section (TS closure narrowing).
+  const state: { current: MutableSection | null } = { current: null };
   const preamble: string[] = [];
   let inCode = false;
   let codeBuffer: string[] = [];
@@ -193,8 +194,8 @@ export function parseMarkdownDocument(
     }
     const block = codeBuffer.join('\n').trim();
     if (block) {
-      if (current) {
-        current.code.push(block);
+      if (state.current) {
+        state.current.code.push(block);
       } else {
         // Keep preamble code searchable via body later.
         preamble.push(block);
@@ -212,7 +213,7 @@ export function parseMarkdownDocument(
       titleFound = true;
       return;
     }
-    current = {
+    state.current = {
       id: `h-${sections.length + 1}`,
       title: headingTitle,
       level,
@@ -220,7 +221,7 @@ export function parseMarkdownDocument(
       contentLines: [],
       code: [],
     };
-    sections.push(current);
+    sections.push(state.current);
   };
 
   for (let i = 0; i < lines.length; i += 1) {
@@ -260,8 +261,8 @@ export function parseMarkdownDocument(
       continue;
     }
 
-    if (current) {
-      current.contentLines.push(line);
+    if (state.current) {
+      state.current.contentLines.push(line);
     } else {
       preamble.push(line);
     }
