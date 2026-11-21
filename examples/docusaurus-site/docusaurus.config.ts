@@ -8,11 +8,13 @@ const config: Config = {
   tagline: 'Documentation search for Docusaurus. Local, build-time, no account.',
   favicon: 'img/favicon.png',
 
-  url: 'https://docsense.local',
-  baseUrl: '/',
+  // GitHub Pages: https://meharshit.github.io/docsense/
+  url: 'https://meharshit.github.io',
+  baseUrl: '/docsense/',
 
   organizationName: 'meharshit',
   projectName: 'docsense',
+  trailingSlash: true,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -132,7 +134,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `<div class="docsense-footer-bar"><span>Docsense · MIT</span><span class="docsense-footer-powered">Powered by <img src="/img/brand/docsense-icon-dark.png" alt="" width="14" height="14" /> Docsense</span></div>`,
+      copyright: `<div class="docsense-footer-bar"><span>Docsense · MIT</span><span class="docsense-footer-powered">Powered by <img src="/docsense/img/brand/docsense-icon-dark.png" alt="" width="14" height="14" /> Docsense</span></div>`,
     },
     prism: {
       theme: prismThemes.github,

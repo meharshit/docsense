@@ -2,6 +2,8 @@
 
 **Open-source documentation search for Docusaurus.**
 
+**Live docs:** [https://meharshit.github.io/docsense/](https://meharshit.github.io/docsense/)
+
 Docsense is a build-time documentation search engine that enables you to add search to your Docusaurus site without depending on hosted search services or external crawlers.
 
 It indexes your Markdown and MDX files during the documentation build, generates a structured search index and makes it available to your site as a static JSON file.
