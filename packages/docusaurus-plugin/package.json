@@ -3,6 +3,26 @@
   "version": "0.1.0",
   "description": "Docusaurus plugin + SearchBar theme for Docsense (build-time local search).",
   "license": "MIT",
+  "keywords": [
+    "docusaurus",
+    "docusaurus-plugin",
+    "docusaurus-v3",
+    "documentation",
+    "search",
+    "local-search",
+    "docsense",
+    "markdown",
+    "mdx"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meharshit/docsense.git",
+    "directory": "packages/docusaurus-plugin"
+  },
+  "homepage": "https://meharshit.github.io/docsense/",
+  "bugs": {
+    "url": "https://github.com/meharshit/docsense/issues"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

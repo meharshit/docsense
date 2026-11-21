@@ -2,10 +2,15 @@
 
 **Open-source, build-time documentation search for Docusaurus.**
 
-> **Public documentation:** [https://meharshit.github.io/docsense/](https://meharshit.github.io/docsense/)
+[![npm](https://img.shields.io/npm/v/docusaurus-plugin-docsense.svg)](https://www.npmjs.com/package/docusaurus-plugin-docsense)
+[![license](https://img.shields.io/npm/l/docusaurus-plugin-docsense.svg)](https://github.com/meharshit/docsense/blob/main/LICENSE)
+[![docs](https://img.shields.io/badge/docs-live-blue)](https://meharshit.github.io/docsense/)
+
+**Live demo:** [https://meharshit.github.io/docsense/](https://meharshit.github.io/docsense/) · **npm:** [`docusaurus-plugin-docsense`](https://www.npmjs.com/package/docusaurus-plugin-docsense) · **Install:** `npm install docusaurus-plugin-docsense`
 
 Docsense adds search to your Docusaurus site without hosted search services or external crawlers. During your documentation build, it indexes Markdown and MDX source files into a structured static JSON index that ships and deploys directly with your site. You keep full control over your content, indexing pipeline, and search infrastructure.
 
+<!-- Replace feature-search-modal.png with docs/images/demo.gif once you record a ~10s Loom/GIF. -->
 <p align="center">
   <img src="docs/images/feature-search-modal.png" alt="Docsense search modal with filters and page limit controls" width="900" />
 </p>

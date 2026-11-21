@@ -3,6 +3,22 @@
   "version": "0.1.0",
   "description": "Browser/Node runtime helpers for loading and querying a Docsense index.",
   "license": "MIT",
+  "keywords": [
+    "docusaurus",
+    "documentation",
+    "search",
+    "local-search",
+    "docsense"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meharshit/docsense.git",
+    "directory": "packages/runtime"
+  },
+  "homepage": "https://meharshit.github.io/docsense/",
+  "bugs": {
+    "url": "https://github.com/meharshit/docsense/issues"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

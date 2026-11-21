@@ -3,6 +3,23 @@
   "version": "0.1.0",
   "description": "Build Docsense search indexes from Markdown/MDX source files.",
   "license": "MIT",
+  "keywords": [
+    "docusaurus",
+    "documentation",
+    "search",
+    "markdown",
+    "mdx",
+    "docsense"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meharshit/docsense.git",
+    "directory": "packages/indexer"
+  },
+  "homepage": "https://meharshit.github.io/docsense/",
+  "bugs": {
+    "url": "https://github.com/meharshit/docsense/issues"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
