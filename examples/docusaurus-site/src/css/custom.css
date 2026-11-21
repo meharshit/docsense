@@ -4,6 +4,23 @@
  * Explicit light/dark tokens so breadcrumbs, sidebar, TOC stay readable.
  */
 
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.main-wrapper,
+.navbar,
+.footer {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 :root {
   --docsense-bg: #17261e;
   --docsense-panel: #1e3328;
@@ -293,5 +310,27 @@ html[data-theme='dark'] .table-of-contents__link:hover {
   .navbar__logo img {
     height: 20px !important;
     max-width: 96px;
+  }
+}
+
+/* Keep long inline code / pre from blowing out doc pages on phones */
+@media screen and (max-width: 996px) {
+  .markdown code {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .markdown pre,
+  .theme-code-block,
+  .prism-code {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  article,
+  .theme-doc-markdown,
+  .container {
+    max-width: 100%;
+    min-width: 0;
   }
 }

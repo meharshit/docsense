@@ -17,6 +17,16 @@
   --chip-idle-border: #5e7a69;
   background: var(--bg);
   color: var(--ink);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
 }
 
 html[data-theme='dark'] .page {
@@ -271,9 +281,11 @@ html[data-theme='dark'] .heroHint kbd {
 .heroModalSearch {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.55rem;
   padding: 0.9rem 1rem;
   border-bottom: 1px solid #2e4739;
+  min-width: 0;
 }
 
 .heroModalIcon {
@@ -285,7 +297,8 @@ html[data-theme='dark'] .heroHint kbd {
 }
 
 .heroModalQuery {
-  flex: 1;
+  flex: 1 1 8rem;
+  min-width: 0;
   font-size: 0.98rem;
   color: #eef2ec;
 }
@@ -365,8 +378,9 @@ html[data-theme='dark'] .heroHint kbd {
   padding: 0.7rem 0.75rem;
   border-radius: 12px;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 0.65rem;
+  min-width: 0;
   align-items: start;
 }
 
@@ -418,6 +432,8 @@ html[data-theme='dark'] .heroHint kbd {
   color: #b7c4ba;
   font-size: 0.75rem;
   margin-top: 0.12rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .heroHitSnippet {
@@ -553,6 +569,8 @@ html[data-theme='dark'] .sectionAlt {
 .sectionInner {
   max-width: 1120px;
   margin: 0 auto;
+  width: 100%;
+  min-width: 0;
 }
 
 .sectionEyebrow {
@@ -606,6 +624,9 @@ html[data-theme='dark'] .sectionTitle {
   border: 1px solid var(--line);
   border-radius: 16px;
   min-height: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 html[data-theme='dark'] .steps li {
@@ -628,10 +649,15 @@ html[data-theme='dark'] .steps h3 {
   color: var(--body);
   line-height: 1.55;
   flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .steps code {
   font-size: 0.9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .stepNum {
@@ -655,7 +681,12 @@ html[data-theme='dark'] .steps h3 {
   border: 1px solid #2e4739;
   font-size: 0.82rem;
   line-height: 1.45;
-  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: pre;
 }
 
 .kbdRow {
@@ -699,6 +730,9 @@ html[data-theme='dark'] .kbdOr {
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 1.2rem 1.25rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 html[data-theme='dark'] .featureCard {
@@ -724,6 +758,8 @@ html[data-theme='dark'] .featureCard h3 {
   color: var(--body);
   line-height: 1.5;
   font-size: 0.94rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .miniPanel {
@@ -732,19 +768,29 @@ html[data-theme='dark'] .featureCard h3 {
   border-radius: 12px;
   padding: 0.85rem 0.9rem;
   color: #eef2ec;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .miniHit {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 0.65rem;
   align-items: start;
+  min-width: 0;
+}
+
+.miniHit > div {
+  min-width: 0;
 }
 
 .miniHit strong {
   display: block;
   color: #eef2ec;
   font-size: 0.92rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .miniCrumbs {
@@ -752,6 +798,8 @@ html[data-theme='dark'] .featureCard h3 {
   color: #b7c4ba;
   font-size: 0.75rem;
   margin-top: 0.15rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .miniHit em {
@@ -760,6 +808,8 @@ html[data-theme='dark'] .featureCard h3 {
   font-style: normal;
   font-size: 0.8rem;
   margin-top: 0.25rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .miniChips {
@@ -1012,8 +1062,11 @@ html[data-theme='dark'] .compareFoot a {
   .steps,
   .compare,
   .ctaInner {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     display: grid;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .featureWide {
@@ -1024,18 +1077,29 @@ html[data-theme='dark'] .compareFoot a {
     display: none;
   }
 
-  .hero {
-    padding-top: 2rem;
+  .hero,
+  .section,
+  .sectionAlt,
+  .proof {
     padding-left: 1rem;
     padding-right: 1rem;
+    overflow-x: clip;
+  }
+
+  .hero {
+    padding-top: 2rem;
   }
 
   .heroTitle {
     font-size: clamp(1.75rem, 7vw, 2.4rem);
+    overflow-wrap: anywhere;
   }
 
-  .heroLead {
+  .heroLead,
+  .sectionLead {
     font-size: 1rem;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .heroActions {
@@ -1049,13 +1113,41 @@ html[data-theme='dark'] .compareFoot a {
 
   .heroVisual {
     margin-top: 1.25rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .heroModal {
     border-radius: 14px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .heroHint {
     display: none;
+  }
+
+  .typoBadge,
+  .escHint {
+    flex: 0 0 auto;
+  }
+
+  .steps li,
+  .featureCard,
+  .compareCard {
+    padding: 1rem;
+  }
+
+  .code {
+    font-size: 0.75rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .kbdRow {
+    flex-wrap: wrap;
+  }
+
+  .miniPanel {
+    padding: 0.7rem 0.75rem;
   }
 }
