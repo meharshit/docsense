@@ -118,7 +118,7 @@ Choose Algolia when you need a mature hosted search platform and its managed inf
 
 Choose Docsense when you want documentation search to remain part of your own build and deployment workflow.
 
-For a broader comparison with local plugins (easyops, Orama, Pagefind), see [docs/COMPETITIVE.md](docs/COMPETITIVE.md).
+For a broader comparison with easyops, Orama, Pagefind, and Algolia, see [docs/COMPETITIVE.md](docs/COMPETITIVE.md) or the [live comparison guide](https://meharshit.github.io/docsense/docs/concepts/compare-open-source-search/).
 
 ## How Docsense works
 
