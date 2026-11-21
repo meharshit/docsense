@@ -55,6 +55,35 @@
   opacity: 0.85;
 }
 
+/*
+ * Phones / narrow nav (Docusaurus mobile breakpoint):
+ * circular icon-only search so the trigger never overlaps the logo.
+ * Desktop / laptop keeps the full pill with label + shortcut.
+ */
+@media screen and (max-width: 996px) {
+  .docsense-trigger {
+    width: 2.25rem;
+    height: 2.25rem;
+    min-height: 2.25rem;
+    min-width: 2.25rem;
+    padding: 0;
+    gap: 0;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .docsense-trigger__icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    opacity: 0.9;
+  }
+
+  .docsense-trigger__label,
+  .docsense-trigger__kbd {
+    display: none;
+  }
+}
+
 .docsense-overlay {
   position: fixed;
   inset: 0;
@@ -311,4 +340,53 @@ mark.docsense-mark {
   border-radius: 0.2em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+/* Mobile search modal: edge-aware, stacked controls, no keyboard chrome. */
+@media screen and (max-width: 996px) {
+  .docsense-overlay {
+    padding: 0.65rem 0.55rem max(0.65rem, env(safe-area-inset-bottom));
+    align-items: stretch;
+  }
+
+  .docsense-modal {
+    width: 100%;
+    max-height: calc(100dvh - 1.3rem);
+    border-radius: 14px;
+  }
+
+  .docsense-searchrow {
+    padding: 0.85rem 0.9rem;
+    gap: 0.55rem;
+  }
+
+  .docsense-searchrow__hint {
+    display: none;
+  }
+
+  .docsense-searchrow__input {
+    font-size: 1rem;
+  }
+
+  .docsense-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .docsense-filters {
+    width: 100%;
+  }
+
+  .docsense-limit {
+    justify-content: flex-start;
+  }
+
+  .docsense-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 0.6rem 0.9rem;
+  }
 }

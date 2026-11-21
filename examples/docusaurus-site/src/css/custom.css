@@ -256,3 +256,42 @@ html[data-theme='dark'] .table-of-contents__link:hover {
   height: 28px !important;
   width: auto !important;
 }
+
+/* Mobile navbar: keep logo + circular Docsense search from colliding */
+@media screen and (max-width: 996px) {
+  .navbar__inner {
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+  }
+
+  .navbar__brand {
+    margin-right: 0.25rem;
+    min-width: 0;
+  }
+
+  .navbar__logo img {
+    height: 22px !important;
+    max-width: 118px;
+    object-fit: contain;
+  }
+
+  .navbar__items--right {
+    flex: 0 0 auto;
+    gap: 0.35rem;
+  }
+
+  .navbar__items--right .navbar__item {
+    padding: 0;
+  }
+
+  .navbar__toggle {
+    margin-right: 0.15rem;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .navbar__logo img {
+    height: 20px !important;
+    max-width: 96px;
+  }
+}

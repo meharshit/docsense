@@ -1025,6 +1025,37 @@ html[data-theme='dark'] .compareFoot a {
   }
 
   .hero {
-    padding-top: 2.5rem;
+    padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(1.75rem, 7vw, 2.4rem);
+  }
+
+  .heroLead {
+    font-size: 1rem;
+  }
+
+  .heroActions {
+    width: 100%;
+  }
+
+  .heroActions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .heroVisual {
+    margin-top: 1.25rem;
+  }
+
+  .heroModal {
+    border-radius: 14px;
+  }
+
+  .heroHint {
+    display: none;
   }
 }
