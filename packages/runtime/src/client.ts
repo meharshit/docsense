@@ -29,7 +29,10 @@ export class DocsenseClient {
 
   constructor(options: DocsenseClientOptions = {}) {
     this.indexUrl = options.indexUrl ?? DEFAULT_INDEX_PATH;
-    this.fetchImpl = options.fetchImpl ?? fetch;
+    // Bind fetch to globalThis — unbound `fetch` throws Illegal invocation in browsers.
+    this.fetchImpl =
+      options.fetchImpl ??
+      ((input: RequestInfo | URL, init?: RequestInit) => globalThis.fetch(input, init));
     this.index = options.index ?? null;
   }
 
@@ -38,7 +41,11 @@ export class DocsenseClient {
       return this.index;
     }
     if (!this.indexPromise) {
-      this.indexPromise = this.fetchIndex();
+      this.indexPromise = this.fetchIndex().catch((error) => {
+        // Allow a later search() to retry instead of sticky-rejecting forever.
+        this.indexPromise = null;
+        throw error;
+      });
     }
     this.index = await this.indexPromise;
     return this.index;

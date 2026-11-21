@@ -6,7 +6,15 @@ coverage/
 .env
 .env.*
 !.env.example
-examples/basic/build/
-examples/basic/.docusaurus/
 *.log
 .turbo/
+
+# Demo / docs site build output (keep sources; never publish these)
+examples/**/build/
+examples/**/.docusaurus/
+examples/**/static/docsense/search-index.json
+**/search-index.json
+
+# Local tooling
+.vscode/*.log
+*.vsix

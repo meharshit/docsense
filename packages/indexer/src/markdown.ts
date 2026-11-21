@@ -9,6 +9,27 @@ export interface ParsedMarkdown {
 const HEADING_RE = /^(#{1,6})\s+(.+?)\s*$/;
 const CODE_FENCE_RE = /^```[\w-]*\s*$/;
 
+/** Attributes that usually carry human-readable text in MDX/JSX. */
+const TEXTISH_ATTRS = new Set([
+  'title',
+  'label',
+  'description',
+  'alt',
+  'aria-label',
+  'arialabel',
+  'placeholder',
+  'caption',
+  'name',
+  'summary',
+  'children',
+  'heading',
+  'subtitle',
+  'text',
+  'cta',
+  'buttontext',
+  'emptytext',
+]);
+
 /** Convert a heading to a URL-safe anchor (GitHub-ish). */
 export function slugify(heading: string): string {
   return heading
@@ -20,9 +41,54 @@ export function slugify(heading: string): string {
     .replace(/^-|-$/g, '');
 }
 
+/**
+ * Pull string literals out of JSX/MDX attribute lists and tag children
+ * so component-heavy pages still contribute searchable words.
+ */
+export function extractMdxReadableText(source: string): string {
+  if (!source) {
+    return '';
+  }
+
+  let text = source;
+  // Drop import/export lines (not useful for search).
+  text = text.replace(/^\s*import\s.+?;?\s*$/gm, ' ');
+  text = text.replace(/^\s*export\s.+?;?\s*$/gm, ' ');
+  // Drop MDX/JSX comments.
+  text = text.replace(/\{\/\*[\s\S]*?\*\/\}/g, ' ');
+  // Drop fenced code temporarily handled elsewhere; leave inline for now.
+
+  const collected: string[] = [];
+
+  // title="...", description={'...'}, alt='...'
+  const attrRe =
+    /\b([A-Za-z][\w-]*)\s*=\s*(?:\{\s*(['"`])([\s\S]*?)\2\s*\}|(['"`])([\s\S]*?)\4)/g;
+  let match: RegExpExecArray | null;
+  while ((match = attrRe.exec(text)) !== null) {
+    const name = match[1]!.toLowerCase();
+    const value = (match[3] ?? match[5] ?? '').trim();
+    if (!value) {
+      continue;
+    }
+    if (TEXTISH_ATTRS.has(name) || name.endsWith('label') || name.endsWith('title')) {
+      collected.push(value);
+    }
+  }
+
+  // Self-closing and paired JSX tags → keep children text, drop braces expressions
+  // that are clearly identifiers (not quoted strings).
+  text = text.replace(/<\/?[A-Za-z][\w.]*[^>]*>/g, ' ');
+  text = text.replace(/\{(['"`])([\s\S]*?)\1\}/g, ' $2 ');
+  text = text.replace(/\{[^}]+\}/g, ' ');
+
+  collected.push(text);
+  return collected.join(' ');
+}
+
 /** Strip common MDX/Markdown markup into plain text for search. */
 export function toPlainText(markdown: string): string {
-  return markdown
+  const withMdx = extractMdxReadableText(markdown);
+  return withMdx
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/`([^`]+)`/g, '$1')
     .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')

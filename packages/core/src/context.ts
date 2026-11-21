@@ -1,4 +1,4 @@
-import type { DocRecord, SearchContext } from './types.js';
+import type { DocRecord, SearchContext } from './types';
 
 /** Returns true when a document should be visible for the active browsing context. */
 export function matchesContext(doc: DocRecord, context?: SearchContext): boolean {

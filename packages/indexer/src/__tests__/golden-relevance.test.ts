@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { indexDocuments } from '../build-index.js';
+import { indexDocuments } from '../build-index';
 import { search } from '@docsense/core';
 
 /**

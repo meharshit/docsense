@@ -7,8 +7,11 @@
   "author": "meharshit",
   "workspaces": [
     "packages/*",
-    "examples/*"
+    "examples/basic"
   ],
+  "overrides": {
+    "webpack": "5.95.0"
+  },
   "scripts": {
     "build": "tsc -b && npm run copy:theme -w docusaurus-plugin-docsense",
     "test": "vitest run",

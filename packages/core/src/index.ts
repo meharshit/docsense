@@ -11,11 +11,22 @@ export type {
   SearchIndexMeta,
   SearchOptions,
   SearchResult,
-} from './types.js';
+} from './types';
 
-export { tokenize, uniqueTokens, tokensFuzzyMatch } from './tokenize.js';
-export { matchesContext } from './context.js';
-export { buildSnippet } from './snippet.js';
-export { scoreDocumentFields, DEFAULT_WEIGHTS } from './rank.js';
-export type { FieldWeights, RankedMatch } from './rank.js';
-export { search, createEmptyIndex, buildSearchIndex } from './search.js';
+export {
+  tokenize,
+  tokenizeForMatch,
+  uniqueTokens,
+  tokensFuzzyMatch,
+  classifyTokenMatch,
+  damerauLevenshtein,
+  maxFuzzyDistance,
+  fuzzyMatchWeight,
+} from './tokenize';
+export type { FuzzyMatchKind } from './tokenize';
+export { stemEnglish, shouldStemToken } from './stem';
+export { matchesContext } from './context';
+export { buildSnippet } from './snippet';
+export { scoreDocumentFields, DEFAULT_WEIGHTS } from './rank';
+export type { FieldWeights, RankedMatch } from './rank';
+export { search, createEmptyIndex, buildSearchIndex } from './search';

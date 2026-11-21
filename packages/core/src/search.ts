@@ -1,7 +1,7 @@
-import { matchesContext } from './context.js';
-import { scoreDocumentFields } from './rank.js';
-import { buildSnippet } from './snippet.js';
-import { uniqueTokens } from './tokenize.js';
+import { matchesContext } from './context';
+import { scoreDocumentFields } from './rank';
+import { buildSnippet } from './snippet';
+import { uniqueTokens } from './tokenize';
 import type {
   DocRecord,
   SearchHit,
@@ -9,7 +9,7 @@ import type {
   SearchIndex,
   SearchOptions,
   SearchResult,
-} from './types.js';
+} from './types';
 
 const DEFAULT_LIMIT = 8;
 
@@ -143,9 +143,24 @@ export function search(index: SearchIndex, options: SearchOptions): SearchResult
     }
   }
 
-  const hits = [...bestByUrl.values()]
-    .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
-    .slice(0, limit);
+  const sorted = [...bestByUrl.values()].sort(
+    (a, b) => b.score - a.score || a.title.localeCompare(b.title),
+  );
+
+  // Prefer the best hit per document so a limit of N yields up to N pages,
+  // not N sections from the same page (important for filters / page UI).
+  const hits: SearchHit[] = [];
+  const seenDocuments = new Set<string>();
+  for (const hit of sorted) {
+    if (seenDocuments.has(hit.documentId)) {
+      continue;
+    }
+    seenDocuments.add(hit.documentId);
+    hits.push(hit);
+    if (hits.length >= limit) {
+      break;
+    }
+  }
 
   return {
     query,

@@ -1,4 +1,4 @@
-import { tokenize } from './tokenize.js';
+import { tokenize } from './tokenize';
 
 /** Build a short snippet around the first matched query token. */
 export function buildSnippet(text: string, query: string, radius = 48): string {

@@ -1,11 +1,10 @@
 ---
-title: Introduction
+title: What is Docsense?
+pageType: docs
 ---
 
-# Introduction
+# What is Docsense?
 
-Docsense is a build-time search engine for documentation sites.
+Docsense indexes Markdown at build time and searches locally in the browser.
 
-## Why Docsense
-
-Use it when you want search that ships with every deploy and never sends your docs to a third-party crawler.
+See the full documentation site under `examples/docusaurus-site`.

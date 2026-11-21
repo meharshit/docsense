@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { matchesContext } from '../context.js';
-import type { DocRecord } from '../types.js';
+import { matchesContext } from '../context';
+import type { DocRecord } from '../types';
 
 const baseDoc: DocRecord = {
   id: '1',

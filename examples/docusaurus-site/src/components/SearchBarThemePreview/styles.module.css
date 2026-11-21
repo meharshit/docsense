@@ -1,0 +1,299 @@
+/**
+ * Scoped preview of a customized Docsense SearchBar for the style guide.
+ * Uses the deep-green + gold brand palette as the worked example.
+ */
+
+.wrap {
+  --preview-bg: #17261e;
+  --preview-panel: #1e3328;
+  --preview-faint: #2e4739;
+  --preview-soft: #5e7a69;
+  --preview-muted: #a9b8ad;
+  --preview-line: #c9d6cb;
+  --preview-paper: #eef2ec;
+  --preview-gold: #e3c77a;
+  --preview-ink: #17261e;
+
+  margin: 1.25rem 0 1.75rem;
+  border: 1px solid var(--preview-line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #eef2ec;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid #e0e1ea;
+  font-size: 0.85rem;
+  color: #4a4d66;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(227, 199, 122, 0.28);
+  color: #17261e;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stage {
+  padding: 1.25rem 1rem 1.5rem;
+  background:
+    radial-gradient(700px 280px at 20% 0%, rgba(227, 199, 122, 0.12), transparent 55%),
+    #eef2ec;
+}
+
+.triggerRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.85rem;
+}
+
+.triggerIcon {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  opacity: 0.85;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid #c9d6cb;
+  background: #fff;
+  color: #17261e;
+  border-radius: 999px;
+  padding: 0.4rem 0.7rem 0.4rem 0.75rem;
+  font-weight: 650;
+  font-size: 0.9rem;
+  box-shadow: 0 1px 2px rgba(23, 38, 30, 0.06);
+}
+
+.triggerKbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  border: 1px solid #c9d6cb;
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: 0.05rem 0.35rem;
+  background: #eef2ec;
+  color: #5e7a69;
+}
+
+.modal {
+  width: min(680px, 100%);
+  margin: 0 auto;
+  background: var(--preview-bg);
+  color: var(--preview-paper);
+  border: 1px solid var(--preview-faint);
+  border-radius: 16px;
+  box-shadow: 0 28px 70px rgba(23, 38, 30, 0.35);
+  overflow: hidden;
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid var(--preview-faint);
+}
+
+.searchIcon {
+  width: 1.1rem;
+  height: 1.1rem;
+  opacity: 0.75;
+  flex: 0 0 auto;
+}
+
+.query {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--preview-paper);
+}
+
+.queryMark {
+  background: rgba(227, 199, 122, 0.28);
+  color: var(--preview-gold);
+  border-radius: 0.2em;
+  padding: 0 0.12em;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--preview-muted);
+  border: 1px solid var(--preview-faint);
+  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--preview-faint);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.filtersLabel {
+  font-size: 0.75rem;
+  color: var(--preview-muted);
+  margin-right: 0.15rem;
+}
+
+.chip {
+  border: 1px solid var(--preview-faint);
+  background: transparent;
+  color: var(--preview-line);
+  border-radius: 999px;
+  padding: 0.22rem 0.65rem;
+  font-size: 0.78rem;
+}
+
+.chipActive {
+  composes: chip;
+  background: var(--preview-gold);
+  border-color: var(--preview-gold);
+  color: var(--preview-ink);
+  font-weight: 700;
+}
+
+.limit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--preview-muted);
+  font-size: 0.78rem;
+}
+
+.limitBtn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--preview-faint);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--preview-paper);
+}
+
+.limitValue {
+  min-width: 1.25rem;
+  text-align: center;
+  color: var(--preview-paper);
+  font-weight: 650;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0.45rem;
+}
+
+.hit {
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.hitActive {
+  composes: hit;
+  background: rgba(227, 199, 122, 0.14);
+}
+
+.hitTitle {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.hitSection {
+  font-size: 0.84rem;
+  color: var(--preview-gold);
+}
+
+.hitMeta {
+  font-size: 0.75rem;
+  color: var(--preview-muted);
+}
+
+.hitSnippet {
+  font-size: 0.82rem;
+  color: var(--preview-line);
+  margin-top: 0.1rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-top: 1px solid var(--preview-faint);
+  font-size: 0.72rem;
+  color: var(--preview-muted);
+}
+
+.powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.poweredMark {
+  display: inline-block;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+html[data-theme='dark'] .wrap {
+  border-color: #2e4739;
+}
+
+html[data-theme='dark'] .caption {
+  background: #1e3328;
+  border-bottom-color: #2e4739;
+  color: #a9b8ad;
+}
+
+html[data-theme='dark'] .stage {
+  background:
+    radial-gradient(700px 280px at 20% 0%, rgba(227, 199, 122, 0.08), transparent 55%),
+    #17261e;
+}
+
+html[data-theme='dark'] .trigger {
+  background: #1e3328;
+  border-color: #2e4739;
+  color: #eef2ec;
+}
+
+html[data-theme='dark'] .triggerKbd {
+  background: #17261e;
+  border-color: #2e4739;
+  color: #a9b8ad;
+}

@@ -1,0 +1,314 @@
+/* Prefixed global CSS — safe inside Docusaurus + React portals (no CSS-module leakage). */
+
+.docsense-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--docsense-trigger-border, var(--ifm-color-emphasis-300, #d0d5dd));
+  background: var(--docsense-trigger-bg, var(--ifm-background-surface-color, #fff));
+  color: var(--docsense-trigger-color, var(--ifm-font-color-base, #111));
+  border-radius: var(--docsense-trigger-radius, 999px);
+  padding: var(--docsense-trigger-padding, 0.4rem 0.7rem 0.4rem 0.75rem);
+  min-height: 2.25rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.2;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.docsense-trigger:hover {
+  border-color: var(--docsense-accent, var(--ifm-color-primary, #0f766e));
+}
+
+.docsense-trigger__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: 0 0 auto;
+  opacity: 0.72;
+  color: inherit;
+  display: block;
+}
+
+.docsense-trigger__label {
+  opacity: 0.92;
+  white-space: nowrap;
+}
+
+.docsense-trigger__kbd {
+  font-size: 0.7rem;
+  font-weight: 560;
+  border: 1px solid var(--docsense-trigger-border, var(--ifm-color-emphasis-300, #d0d5dd));
+  border-radius: 999px;
+  padding: 0.12rem 0.42rem;
+  margin-left: 0.1rem;
+  background: color-mix(
+    in srgb,
+    var(--docsense-trigger-bg, #fff) 72%,
+    var(--docsense-trigger-color, #111) 6%
+  );
+  color: inherit;
+  opacity: 0.85;
+}
+
+.docsense-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  background: var(--docsense-overlay, rgba(15, 23, 42, 0.62));
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10vh 1rem 2rem;
+  box-sizing: border-box;
+}
+
+.docsense-modal {
+  --docsense-surface: var(--docsense-modal-bg, #ffffff);
+  --docsense-ink: var(--docsense-modal-fg, #111827);
+  --docsense-muted-ink: var(--docsense-modal-muted, #5b6472);
+  --docsense-stroke: var(--docsense-modal-border, #e5e7eb);
+
+  width: min(var(--docsense-modal-width, 720px), 100%);
+  max-height: min(78vh, 760px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--docsense-surface);
+  color: var(--docsense-ink);
+  border-radius: var(--docsense-modal-radius, 16px);
+  border: 1px solid var(--docsense-stroke);
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.22);
+  box-sizing: border-box;
+}
+
+.docsense-searchrow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.95rem 1.1rem;
+  border-bottom: 1px solid var(--docsense-stroke);
+  color: var(--docsense-ink);
+}
+
+.docsense-searchrow__icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  opacity: 0.7;
+  flex: 0 0 auto;
+  color: var(--docsense-ink);
+  display: block;
+}
+
+.docsense-searchrow__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--docsense-ink);
+  font: inherit;
+  font-size: 1.05rem;
+  caret-color: var(--docsense-accent, #e3c77a);
+}
+
+.docsense-searchrow__input::placeholder {
+  color: var(--docsense-muted-ink);
+  opacity: 1;
+}
+
+.docsense-searchrow__hint {
+  font-size: 0.75rem;
+  color: var(--docsense-muted-ink);
+  border: 1px solid var(--docsense-stroke);
+  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+}
+
+.docsense-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--docsense-stroke);
+  color: var(--docsense-ink);
+}
+
+.docsense-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.docsense-filters__label {
+  font-size: 0.8rem;
+  color: var(--docsense-muted-ink);
+  margin-right: 0.15rem;
+}
+
+.docsense-chip {
+  border: 1px solid var(--docsense-stroke);
+  background: transparent;
+  color: var(--docsense-ink);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.docsense-chip.is-active {
+  background: var(--docsense-accent, #e3c77a);
+  border-color: var(--docsense-accent, #e3c77a);
+  color: var(--docsense-accent-contrast, #17261e);
+  font-weight: 600;
+}
+
+.docsense-limit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--docsense-ink);
+}
+
+.docsense-limit__label {
+  color: var(--docsense-muted-ink);
+  margin-right: 0.2rem;
+}
+
+.docsense-limit__btn {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--docsense-stroke);
+  background: transparent;
+  color: var(--docsense-ink);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.docsense-limit__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.docsense-limit__value {
+  min-width: 1.5rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--docsense-ink);
+}
+
+.docsense-body {
+  overflow: auto;
+  flex: 1 1 auto;
+  padding: 0.55rem;
+  color: var(--docsense-ink);
+}
+
+.docsense-error {
+  color: var(--ifm-color-danger, #f87171);
+  padding: 0.75rem 0.85rem;
+}
+
+.docsense-empty {
+  padding: 1.4rem 1rem;
+  text-align: center;
+  color: var(--docsense-muted-ink);
+}
+
+.docsense-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.docsense-hit {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--docsense-ink);
+  font: inherit;
+  padding: 0.8rem 0.9rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  line-height: 1.35;
+}
+
+.docsense-hit:hover,
+.docsense-hit.is-active {
+  background: color-mix(in srgb, var(--docsense-accent, #e3c77a) 18%, transparent);
+}
+
+.docsense-hit__title {
+  font-weight: 650;
+  font-size: 0.98rem;
+  color: var(--docsense-ink);
+}
+
+.docsense-hit__section {
+  font-size: 0.88rem;
+  color: var(--docsense-accent, #e3c77a);
+}
+
+.docsense-hit__meta {
+  font-size: 0.78rem;
+  color: var(--docsense-muted-ink);
+}
+
+.docsense-hit__snippet {
+  font-size: 0.84rem;
+  color: var(--docsense-muted-ink);
+  margin-top: 0.15rem;
+}
+
+.docsense-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-top: 1px solid var(--docsense-stroke);
+  font-size: 0.75rem;
+  color: var(--docsense-muted-ink);
+}
+
+.docsense-footer__powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.docsense-footer__mark {
+  display: inline-block;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+/* Destination-page term highlights (after a result click). */
+mark.docsense-mark {
+  background: var(--docsense-mark-bg, #fde68a);
+  color: var(--docsense-mark-color, inherit);
+  padding: 0.05em 0.15em;
+  border-radius: 0.2em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

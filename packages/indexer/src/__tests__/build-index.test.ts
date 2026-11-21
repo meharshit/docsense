@@ -5,7 +5,7 @@ import {
   indexSourceDocument,
   parseIndexJson,
   serializeIndex,
-} from '../build-index.js';
+} from '../build-index';
 
 const sampleSource = `---
 title: Upload pre-recorded ambient audio

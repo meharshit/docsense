@@ -1,0 +1,258 @@
+/**
+ * Docsense docs site theme.
+ * Deep green system + gold accent.
+ * Explicit light/dark tokens so breadcrumbs, sidebar, TOC stay readable.
+ */
+
+:root {
+  --docsense-bg: #17261e;
+  --docsense-panel: #1e3328;
+  --docsense-faint: #2e4739;
+  --docsense-soft: #5e7a69;
+  --docsense-muted: #a9b8ad;
+  --docsense-line: #c9d6cb;
+  --docsense-paper: #eef2ec;
+  --docsense-gold: #e3c77a;
+
+  --ifm-color-primary: #2e4739;
+  --ifm-color-primary-dark: #243a2e;
+  --ifm-color-primary-darker: #1e3328;
+  --ifm-color-primary-darkest: #17261e;
+  --ifm-color-primary-light: #5e7a69;
+  --ifm-color-primary-lighter: #a9b8ad;
+  --ifm-color-primary-lightest: #c9d6cb;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(23, 38, 30, 0.06);
+
+  --ifm-background-color: #eef2ec;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-font-color-base: #17261e;
+  --ifm-font-color-secondary: #3d5648;
+  --ifm-color-content: #17261e;
+  --ifm-color-content-secondary: #3d5648;
+
+  --ifm-navbar-background-color: #eef2ec;
+  --ifm-navbar-link-color: #17261e;
+  --ifm-navbar-link-hover-color: #2e4739;
+
+  --ifm-menu-color: #2e4739;
+  --ifm-menu-color-active: #17261e;
+  --ifm-menu-color-background-active: rgba(227, 199, 122, 0.35);
+
+  --ifm-toc-border-color: #c9d6cb;
+  --ifm-link-color: #2e4739;
+  --ifm-link-hover-color: #17261e;
+
+  --ifm-breadcrumb-color-active: #17261e;
+  --ifm-breadcrumb-item-background-active: rgba(23, 38, 30, 0.08);
+
+  --ifm-footer-background-color: #17261e;
+  --ifm-footer-color: #a9b8ad;
+  --ifm-footer-link-color: #eef2ec;
+  --ifm-footer-title-color: #e3c77a;
+
+  /* Live SearchBar — dark product panel in both themes */
+  --docsense-accent: #e3c77a;
+  --docsense-accent-contrast: #17261e;
+  --docsense-trigger-bg: #ffffff;
+  --docsense-trigger-border: #c9d6cb;
+  --docsense-trigger-color: #17261e;
+  --docsense-trigger-radius: 999px;
+  --docsense-trigger-padding: 0.4rem 0.7rem 0.4rem 0.75rem;
+  --docsense-modal-width: 720px;
+  --docsense-modal-radius: 16px;
+  --docsense-modal-bg: #17261e;
+  --docsense-modal-fg: #eef2ec;
+  --docsense-modal-muted: #a9b8ad;
+  --docsense-modal-border: #2e4739;
+  --docsense-overlay: rgba(23, 38, 30, 0.55);
+  --docsense-mark-bg: #e3c77a;
+  --docsense-mark-color: #17261e;
+}
+
+html[data-theme='dark'] {
+  --ifm-background-color: #0f1a14 !important;
+  --ifm-background-surface-color: #1a2b22 !important;
+  --ifm-font-color-base: #eef2ec !important;
+  --ifm-font-color-secondary: #b7c4ba !important;
+  --ifm-color-content: #eef2ec !important;
+  --ifm-color-content-secondary: #b7c4ba !important;
+
+  --ifm-color-primary: #e3c77a;
+  --ifm-color-primary-dark: #d4b56a;
+  --ifm-color-primary-darker: #c9a85c;
+  --ifm-color-primary-darkest: #a88945;
+  --ifm-color-primary-light: #e9d295;
+  --ifm-color-primary-lighter: #eedba7;
+  --ifm-color-primary-lightest: #f5e9c6;
+
+  --ifm-navbar-background-color: #0f1a14 !important;
+  --ifm-navbar-link-color: #eef2ec !important;
+  --ifm-navbar-link-hover-color: #e3c77a !important;
+
+  --ifm-menu-color: #d5dfd7 !important;
+  --ifm-menu-color-active: #17261e !important;
+  --ifm-menu-color-background-active: #e3c77a !important;
+
+  --ifm-toc-border-color: #2e4739;
+  --ifm-link-color: #e3c77a;
+  --ifm-link-hover-color: #f5e9c6;
+
+  --ifm-breadcrumb-color-active: #eef2ec !important;
+  --ifm-breadcrumb-item-background-active: rgba(227, 199, 122, 0.18);
+
+  --docusaurus-highlighted-code-line-bg: rgba(227, 199, 122, 0.12);
+
+  --docsense-trigger-bg: #1e3328;
+  --docsense-trigger-border: #2e4739;
+  --docsense-trigger-color: #eef2ec;
+  --docsense-modal-bg: #17261e;
+  --docsense-modal-fg: #eef2ec;
+  --docsense-modal-muted: #a9b8ad;
+  --docsense-modal-border: #2e4739;
+  --docsense-overlay: rgba(8, 14, 11, 0.72);
+  --docsense-mark-bg: rgba(227, 199, 122, 0.55);
+  --docsense-mark-color: #eef2ec;
+}
+
+.docsense-trigger {
+  box-shadow: 0 1px 2px rgba(23, 38, 30, 0.06);
+}
+
+.docsense-trigger:hover {
+  box-shadow: 0 0 0 3px rgba(227, 199, 122, 0.28);
+  border-color: var(--docsense-accent);
+}
+
+.docsense-trigger__icon {
+  opacity: 0.78;
+}
+
+.docsense-modal {
+  box-shadow: 0 28px 70px rgba(23, 38, 30, 0.35);
+}
+
+.footer {
+  background: #17261e !important;
+}
+
+.footer__title {
+  color: #e3c77a !important;
+}
+
+.footer__link-item {
+  color: #eef2ec !important;
+}
+
+.footer__link-item:hover {
+  color: #e3c77a !important;
+}
+
+.footer__copyright {
+  color: #a9b8ad !important;
+}
+
+.docsense-footer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.docsense-footer-powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.docsense-footer-powered img {
+  display: inline-block;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+/* Sidebar */
+.menu__link {
+  color: var(--ifm-menu-color);
+}
+
+.menu__link:hover {
+  color: var(--ifm-font-color-base);
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  background: var(--ifm-menu-color-background-active) !important;
+  color: var(--ifm-menu-color-active) !important;
+  font-weight: 650;
+}
+
+html[data-theme='dark'] .menu__link--active:not(.menu__link--sublist) {
+  color: #17261e !important;
+  background: #e3c77a !important;
+}
+
+html[data-theme='light'] .menu__link--active:not(.menu__link--sublist),
+:root:not([data-theme='dark']) .menu__link--active:not(.menu__link--sublist) {
+  color: #17261e !important;
+  background: rgba(227, 199, 122, 0.4) !important;
+}
+
+/* Breadcrumbs — active pill must contrast in both themes */
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--ifm-breadcrumb-color-active) !important;
+  background: var(--ifm-breadcrumb-item-background-active) !important;
+}
+
+html[data-theme='dark'] .breadcrumbs__link {
+  color: #eef2ec !important;
+}
+
+html[data-theme='dark'] .breadcrumbs__item--active .breadcrumbs__link {
+  color: #eef2ec !important;
+  background: rgba(227, 199, 122, 0.2) !important;
+}
+
+html[data-theme='light'] .breadcrumbs__item--active .breadcrumbs__link,
+:root:not([data-theme='dark']) .breadcrumbs__item--active .breadcrumbs__link {
+  color: #17261e !important;
+  background: rgba(23, 38, 30, 0.08) !important;
+}
+
+.breadcrumbs__item:not(:last-child)::after {
+  opacity: 0.75;
+  color: var(--ifm-font-color-secondary);
+}
+
+/* TOC */
+.table-of-contents__link {
+  color: var(--ifm-font-color-secondary) !important;
+}
+
+.table-of-contents__link--active,
+.table-of-contents__link:hover {
+  color: var(--ifm-link-color) !important;
+}
+
+html[data-theme='dark'] .table-of-contents__link {
+  color: #b7c4ba !important;
+}
+
+html[data-theme='dark'] .table-of-contents__link--active,
+html[data-theme='dark'] .table-of-contents__link:hover {
+  color: #e3c77a !important;
+}
+
+/* Brand wordmark */
+.navbar__logo {
+  margin-right: 0.35rem;
+}
+
+.navbar__logo img {
+  height: 28px !important;
+  width: auto !important;
+}

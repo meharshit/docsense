@@ -4,13 +4,28 @@
     "outDir": "dist",
     "rootDir": "src",
     "composite": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "module": "CommonJS",
+    "moduleResolution": "Node"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["src/**/*.test.ts", "src/theme/**", "dist"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/theme/**",
+    "dist"
+  ],
   "references": [
-    { "path": "../core" },
-    { "path": "../indexer" },
-    { "path": "../runtime" }
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../indexer"
+    },
+    {
+      "path": "../runtime"
+    }
   ]
 }

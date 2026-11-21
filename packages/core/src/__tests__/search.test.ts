@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { buildSearchIndex, search } from '../search.js';
-import type { DocRecord } from '../types.js';
+import { buildSearchIndex, search } from '../search';
+import type { DocRecord } from '../types';
 
 const docs: DocRecord[] = [
   {
@@ -100,5 +100,38 @@ describe('search', () => {
     expect(hit?.highlights.some((h) => h.field === 'body' || h.field === 'section')).toBe(
       true,
     );
+  });
+
+  it('diversifies by document so limit is not wasted on one page with many sections', () => {
+    const fatPage: DocRecord = {
+      id: 'fat',
+      title: 'Audio guide',
+      url: '/docs/audio-guide',
+      pageType: 'howto',
+      breadcrumbs: [],
+      body: 'Audio audio audio',
+      sections: Array.from({ length: 12 }, (_, i) => ({
+        id: `s${i}`,
+        title: `Audio section ${i}`,
+        level: 2 as const,
+        anchor: `audio-section-${i}`,
+        content: 'Audio streaming details appear in every section.',
+      })),
+    };
+    const other: DocRecord = {
+      id: 'other',
+      title: 'Authentication',
+      url: '/docs/auth',
+      pageType: 'howto',
+      breadcrumbs: [],
+      body: 'Partner token authentication for audio APIs.',
+      sections: [],
+    };
+    const fatIndex = buildSearchIndex([fatPage, other]);
+    const result = search(fatIndex, { query: 'audio', limit: 2 });
+    const ids = result.hits.map((h) => h.documentId);
+    expect(ids).toContain('fat');
+    expect(ids).toContain('other');
+    expect(new Set(ids).size).toBe(2);
   });
 });

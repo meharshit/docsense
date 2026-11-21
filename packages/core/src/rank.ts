@@ -1,4 +1,10 @@
-import { tokenize, tokensFuzzyMatch, uniqueTokens } from './tokenize.js';
+import {
+  classifyTokenMatch,
+  fuzzyMatchWeight,
+  tokenize,
+  uniqueTokens,
+  type FuzzyMatchKind,
+} from './tokenize';
 
 export interface FieldWeights {
   readonly title: number;
@@ -22,50 +28,56 @@ export interface RankedMatch {
   readonly exactTitle: boolean;
 }
 
-function fieldScore(
+function bestKindAgainstField(
+  queryToken: string,
+  fieldTokens: readonly string[],
+): FuzzyMatchKind {
+  let best: FuzzyMatchKind = 'none';
+  const rank: Record<FuzzyMatchKind, number> = {
+    exact: 5,
+    stem: 4,
+    prefix: 3,
+    fuzzy1: 2,
+    fuzzy2: 1,
+    none: 0,
+  };
+
+  for (const ft of fieldTokens) {
+    const kind = classifyTokenMatch(queryToken, ft);
+    if (rank[kind] > rank[best]) {
+      best = kind;
+      if (best === 'exact') {
+        break;
+      }
+    }
+  }
+  return best;
+}
+
+function fieldTokenKinds(
   fieldText: string,
   queryTokens: readonly string[],
-  weight: number,
-): { score: number; matched: number } {
+): FuzzyMatchKind[] {
   if (!fieldText || queryTokens.length === 0) {
-    return { score: 0, matched: 0 };
+    return queryTokens.map(() => 'none' as const);
   }
-
   const fieldTokens = tokenize(fieldText);
   if (fieldTokens.length === 0) {
-    return { score: 0, matched: 0 };
+    return queryTokens.map(() => 'none' as const);
   }
+  return queryTokens.map((qt) => bestKindAgainstField(qt, fieldTokens));
+}
 
-  const fieldSet = new Set(fieldTokens);
-  let matched = 0;
-  let score = 0;
-
-  for (const qt of queryTokens) {
-    if (fieldSet.has(qt)) {
-      matched += 1;
-      score += weight;
-      // Phrase / density bonus: more occurrences help a bit.
-      const occurrences = fieldTokens.filter((t) => t === qt).length;
-      score += Math.min(occurrences - 1, 3) * (weight * 0.15);
-      continue;
-    }
-
-    // Prefix match (API-ish): "upload" matches "uploadurl"
-    const prefixHit = fieldTokens.some((ft) => ft.startsWith(qt) || qt.startsWith(ft));
-    if (prefixHit) {
-      matched += 1;
-      score += weight * 0.6;
-      continue;
-    }
-
-    const fuzzyHit = fieldTokens.some((ft) => tokensFuzzyMatch(qt, ft));
-    if (fuzzyHit) {
-      matched += 1;
-      score += weight * 0.35;
-    }
-  }
-
-  return { score, matched };
+function bestKind(a: FuzzyMatchKind, b: FuzzyMatchKind): FuzzyMatchKind {
+  const rank: Record<FuzzyMatchKind, number> = {
+    exact: 5,
+    stem: 4,
+    prefix: 3,
+    fuzzy1: 2,
+    fuzzy2: 1,
+    none: 0,
+  };
+  return rank[a] >= rank[b] ? a : b;
 }
 
 export function scoreDocumentFields(input: {
@@ -83,29 +95,53 @@ export function scoreDocumentFields(input: {
     return { score: 0, matchedTokens: 0, exactTitle: false };
   }
 
-  const title = fieldScore(input.title, queryTokens, weights.title);
-  const section = fieldScore(input.sectionTitle ?? '', queryTokens, weights.sectionTitle);
-  const body = fieldScore(input.body, queryTokens, weights.body);
-  const code = fieldScore((input.code ?? []).join('\n'), queryTokens, weights.code);
-  const crumbs = fieldScore((input.breadcrumbs ?? []).join(' '), queryTokens, weights.breadcrumb);
+  const titleKinds = fieldTokenKinds(input.title, queryTokens);
+  const sectionKinds = fieldTokenKinds(input.sectionTitle ?? '', queryTokens);
+  const bodyKinds = fieldTokenKinds(input.body, queryTokens);
+  const codeKinds = fieldTokenKinds((input.code ?? []).join('\n'), queryTokens);
+  const crumbKinds = fieldTokenKinds((input.breadcrumbs ?? []).join(' '), queryTokens);
 
-  const matchedTokens = Math.max(
-    title.matched,
-    section.matched,
-    body.matched,
-    code.matched,
-    crumbs.matched,
-  );
+  let score = 0;
+  let matchedTokens = 0;
 
-  let score = title.score + section.score + body.score + code.score + crumbs.score;
+  for (let i = 0; i < queryTokens.length; i += 1) {
+    const kind = [
+      titleKinds[i]!,
+      sectionKinds[i]!,
+      bodyKinds[i]!,
+      codeKinds[i]!,
+      crumbKinds[i]!,
+    ].reduce(bestKind);
 
-  // Coverage: prefer hits that match more of the query.
+    const factor = fuzzyMatchWeight(kind);
+    if (factor <= 0) {
+      continue;
+    }
+    matchedTokens += 1;
+
+    // Weight by best field that produced this kind (prefer title > section > code > crumbs > body).
+    const fieldWeightsForToken = [
+      { kind: titleKinds[i]!, weight: weights.title },
+      { kind: sectionKinds[i]!, weight: weights.sectionTitle },
+      { kind: codeKinds[i]!, weight: weights.code },
+      { kind: crumbKinds[i]!, weight: weights.breadcrumb },
+      { kind: bodyKinds[i]!, weight: weights.body },
+    ];
+    const bestField = fieldWeightsForToken
+      .filter((f) => f.kind === kind)
+      .sort((a, b) => b.weight - a.weight)[0];
+    score += (bestField?.weight ?? weights.body) * factor;
+  }
+
+  if (matchedTokens === 0) {
+    return { score: 0, matchedTokens: 0, exactTitle: false };
+  }
+
   const coverage = matchedTokens / queryTokens.length;
   score *= 0.65 + 0.35 * coverage;
 
   const titleTokens = new Set(tokenize(input.title));
-  const exactTitle =
-    queryTokens.length > 0 && queryTokens.every((t) => titleTokens.has(t));
+  const exactTitle = queryTokens.every((t) => titleTokens.has(t));
   if (exactTitle) {
     score *= 1.25;
   }

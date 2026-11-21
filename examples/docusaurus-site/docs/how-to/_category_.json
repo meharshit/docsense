@@ -1,0 +1,8 @@
+{
+  "label": "How-to guides",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Install Docsense, customize the search bar, style the UI, and use filters."
+  }
+}

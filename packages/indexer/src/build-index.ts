@@ -4,8 +4,8 @@ import {
   type DocRecord,
   type SearchIndex,
 } from '@docsense/core';
-import { asString, asStringArray, parseFrontmatter } from './frontmatter.js';
-import { parseMarkdownDocument } from './markdown.js';
+import { asString, asStringArray, parseFrontmatter } from './frontmatter';
+import { parseMarkdownDocument } from './markdown';
 
 export interface SourceDocument {
   /** Stable id (usually relative path without extension). */

@@ -1,11 +1,16 @@
-export { parseFrontmatter, asString, asStringArray } from './frontmatter.js';
-export type { ParsedFrontmatter } from './frontmatter.js';
-export { parseMarkdownDocument, slugify, toPlainText } from './markdown.js';
-export type { ParsedMarkdown } from './markdown.js';
+export { parseFrontmatter, asString, asStringArray } from './frontmatter';
+export type { ParsedFrontmatter } from './frontmatter';
+export {
+  parseMarkdownDocument,
+  slugify,
+  toPlainText,
+  extractMdxReadableText,
+} from './markdown';
+export type { ParsedMarkdown } from './markdown';
 export {
   indexSourceDocument,
   indexDocuments,
   serializeIndex,
   parseIndexJson,
-} from './build-index.js';
-export type { SourceDocument, IndexerOptions } from './build-index.js';
+} from './build-index';
+export type { SourceDocument, IndexerOptions } from './build-index';

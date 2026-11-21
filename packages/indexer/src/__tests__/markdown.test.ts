@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { parseMarkdownDocument, slugify, toPlainText } from '../markdown.js';
+import {
+  extractMdxReadableText,
+  parseMarkdownDocument,
+  slugify,
+  toPlainText,
+} from '../markdown';
 
 describe('slugify', () => {
   it('creates github-like anchors', () => {
@@ -13,6 +18,31 @@ describe('toPlainText', () => {
     expect(toPlainText('Call the [endpoint](/api) with `sessionId`.')).toBe(
       'Call the endpoint with sessionId.',
     );
+  });
+});
+
+describe('extractMdxReadableText', () => {
+  it('keeps textish JSX attributes searchable', () => {
+    const text = extractMdxReadableText(`
+import { Card } from './card';
+
+<Card title="secret term xyzzy" description="Install the plugin" />
+
+Plain prose.
+`);
+    expect(text).toContain('secret term xyzzy');
+    expect(text).toContain('Install the plugin');
+    expect(text).not.toMatch(/import\s+\{/);
+  });
+
+  it('feeds MDX attributes into bodyText via toPlainText', () => {
+    const parsed = parseMarkdownDocument(`# Guides
+
+<Tip title="Stemming matches word forms">
+Useful for installing vs install.
+</Tip>
+`);
+    expect(parsed.bodyText.toLowerCase()).toContain('stemming matches word forms');
   });
 });
 

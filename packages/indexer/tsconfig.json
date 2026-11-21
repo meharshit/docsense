@@ -3,9 +3,20 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "composite": true
+    "composite": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.test.ts", "dist"],
-  "references": [{ "path": "../core" }]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    }
+  ]
 }

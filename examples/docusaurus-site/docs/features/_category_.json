@@ -1,0 +1,8 @@
+{
+  "label": "Features",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "What Docsense can do: search UI, highlighting, MDX extraction, and stemming."
+  }
+}

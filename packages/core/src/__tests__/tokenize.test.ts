@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { tokenize, tokensFuzzyMatch, uniqueTokens } from '../tokenize.js';
+import {
+  classifyTokenMatch,
+  damerauLevenshtein,
+  maxFuzzyDistance,
+  tokenize,
+  tokensFuzzyMatch,
+  uniqueTokens,
+} from '../tokenize';
 
 describe('tokenize', () => {
   it('lowercases and strips punctuation', () => {
@@ -26,18 +33,34 @@ describe('tokenize', () => {
   });
 });
 
-describe('tokensFuzzyMatch', () => {
-  it('matches exact tokens', () => {
-    expect(tokensFuzzyMatch('session', 'session')).toBe(true);
+describe('typo tolerance depth', () => {
+  it('allows distance 1 for medium tokens and distance 2 for longer ones', () => {
+    expect(maxFuzzyDistance(3)).toBe(0);
+    expect(maxFuzzyDistance(5)).toBe(1);
+    expect(maxFuzzyDistance(8)).toBe(2);
   });
 
-  it('allows one edit for longer tokens', () => {
+  it('classifies exact, prefix, and fuzzy matches', () => {
+    expect(classifyTokenMatch('upload', 'upload')).toBe('exact');
+    expect(classifyTokenMatch('upload', 'uploadurl')).toBe('prefix');
+    expect(classifyTokenMatch('uplaod', 'upload')).toBe('fuzzy1');
+    expect(classifyTokenMatch('recieved', 'received')).toBe('fuzzy1');
+    // transposition counts as one edit
+    expect(classifyTokenMatch('documnetation', 'documentation')).toBe('fuzzy1');
+    // two substitutions on a longer token
+    expect(classifyTokenMatch('dokumantation', 'documentation')).toBe('fuzzy2');
+  });
+
+  it('matches common typos via tokensFuzzyMatch', () => {
     expect(tokensFuzzyMatch('sesion', 'session')).toBe(true);
     expect(tokensFuzzyMatch('upload', 'uplaod')).toBe(true);
+    expect(tokensFuzzyMatch('recording', 'streaming')).toBe(false);
   });
 
-  it('rejects short or distant tokens', () => {
-    expect(tokensFuzzyMatch('api', 'app')).toBe(false);
-    expect(tokensFuzzyMatch('recording', 'streaming')).toBe(false);
+  it('computes damerau-levenshtein with early exit', () => {
+    expect(damerauLevenshtein('ca', 'abc', 1)).toBeNull();
+    expect(damerauLevenshtein('ab', 'ba', 1)).toBe(1);
+    expect(damerauLevenshtein('kitten', 'sitting', 2)).toBeNull();
+    expect(damerauLevenshtein('kitten', 'sitten', 1)).toBe(1);
   });
 });
