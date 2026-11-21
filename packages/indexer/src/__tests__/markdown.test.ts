@@ -73,4 +73,73 @@ Finish processing.
     expect(parsed.bodyText).toContain('Intro paragraph');
     expect(parsed.bodyText).toContain('Finish processing');
   });
+
+  it('indexes H2, H3, and H4 ATX headings as searchable sections', () => {
+    const parsed = parseMarkdownDocument(`# Page
+
+## Why use Docsense
+
+Local search.
+
+### Install the plugin
+
+npm install.
+
+#### Advanced filters
+
+Chip filters.
+`);
+    expect(parsed.sections.map((s) => [s.level, s.title, s.anchor])).toEqual([
+      [2, 'Why use Docsense', 'why-use-docsense'],
+      [3, 'Install the plugin', 'install-the-plugin'],
+      [4, 'Advanced filters', 'advanced-filters'],
+    ]);
+  });
+
+  it('indexes Docusaurus Heading and HTML heading tags as sections', () => {
+    const parsed = parseMarkdownDocument(`# MDX page
+
+<Heading as="h2">Why use Docsense</Heading>
+
+Body under JSX heading.
+
+<h3>Install the plugin</h3>
+
+More body.
+
+<Heading as={'h4'}>Advanced filters</Heading>
+`);
+    expect(parsed.sections).toHaveLength(3);
+    expect(parsed.sections[0]).toMatchObject({
+      level: 2,
+      title: 'Why use Docsense',
+      anchor: 'why-use-docsense',
+    });
+    expect(parsed.sections[1]).toMatchObject({
+      level: 3,
+      title: 'Install the plugin',
+    });
+    expect(parsed.sections[2]).toMatchObject({
+      level: 4,
+      title: 'Advanced filters',
+    });
+    expect(parsed.sections[0]?.content).toContain('Body under JSX heading');
+  });
+
+  it('indexes setext H2 headings', () => {
+    const parsed = parseMarkdownDocument(`Page title
+=========
+
+Why use Docsense
+-----------------
+
+Because it is local.
+`);
+    expect(parsed.title).toBe('Page title');
+    expect(parsed.sections[0]).toMatchObject({
+      level: 2,
+      title: 'Why use Docsense',
+      anchor: 'why-use-docsense',
+    });
+  });
 });

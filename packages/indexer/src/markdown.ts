@@ -7,7 +7,68 @@ export interface ParsedMarkdown {
 }
 
 const HEADING_RE = /^(#{1,6})\s+(.+?)\s*$/;
+const HTML_HEADING_RE = /^<\s*h([1-6])\b[^>]*>([\s\S]*?)<\s*\/\s*h\1\s*>\s*$/i;
+const JSX_HEADING_RE = /^<\s*Heading\b([^>]*)>([\s\S]*?)<\s*\/\s*Heading\s*>\s*$/i;
+const SETEXT_H1_RE = /^=+\s*$/;
+const SETEXT_H2_RE = /^-{2,}\s*$/;
 const CODE_FENCE_RE = /^```[\w-]*\s*$/;
+
+/** Pull visible text out of a heading line (strip inner tags / emphasis). */
+function headingPlainText(raw: string): string {
+  return raw
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, ' ')
+    .replace(/<\/?[A-Za-z][\w.]*[^>]*>/g, ' ')
+    .replace(/\{(['"`])([\s\S]*?)\1\}/g, ' $2 ')
+    .replace(/\{[^}]+\}/g, ' ')
+    .replace(/[*_~`]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Read `as="h2"` / `as={'h3'}` from a Docusaurus `<Heading>` tag. */
+function headingLevelFromJsxAttrs(attrs: string): DocHeadingLevel | null {
+  const match = attrs.match(
+    /\bas\s*=\s*(?:\{\s*['"]h([1-6])['"]\s*\}|['"]h([1-6])['"])/i,
+  );
+  const digit = match?.[1] ?? match?.[2];
+  if (!digit) {
+    return null;
+  }
+  return Number(digit) as DocHeadingLevel;
+}
+
+function matchStructuredHeading(
+  line: string,
+): { level: DocHeadingLevel; title: string } | null {
+  const atx = line.match(HEADING_RE);
+  if (atx) {
+    return {
+      level: atx[1]!.length as DocHeadingLevel,
+      title: headingPlainText(atx[2]!.replace(/#+$/, '')),
+    };
+  }
+
+  const html = line.match(HTML_HEADING_RE);
+  if (html) {
+    const title = headingPlainText(html[2] ?? '');
+    if (!title) {
+      return null;
+    }
+    return { level: Number(html[1]) as DocHeadingLevel, title };
+  }
+
+  const jsx = line.match(JSX_HEADING_RE);
+  if (jsx) {
+    const level = headingLevelFromJsxAttrs(jsx[1] ?? '');
+    const title = headingPlainText(jsx[2] ?? '');
+    if (!level || !title) {
+      return null;
+    }
+    return { level, title };
+  }
+
+  return null;
+}
 
 /** Attributes that usually carry human-readable text in MDX/JSX. */
 const TEXTISH_ATTRS = new Set([
@@ -142,7 +203,29 @@ export function parseMarkdownDocument(
     codeBuffer = [];
   };
 
-  for (const line of lines) {
+  const startSection = (level: DocHeadingLevel, headingTitle: string) => {
+    if (!headingTitle) {
+      return;
+    }
+    if (!titleFound && level === 1) {
+      title = headingTitle;
+      titleFound = true;
+      return;
+    }
+    current = {
+      id: `h-${sections.length + 1}`,
+      title: headingTitle,
+      level,
+      anchor: slugify(headingTitle),
+      contentLines: [],
+      code: [],
+    };
+    sections.push(current);
+  };
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i]!;
+
     if (CODE_FENCE_RE.test(line.trim())) {
       if (inCode) {
         inCode = false;
@@ -159,26 +242,21 @@ export function parseMarkdownDocument(
       continue;
     }
 
-    const heading = line.match(HEADING_RE);
-    if (heading) {
-      const level = heading[1]!.length as DocHeadingLevel;
-      const headingTitle = heading[2]!.replace(/#+$/, '').trim();
-
-      if (!titleFound && level === 1) {
-        title = headingTitle;
-        titleFound = true;
+    // Setext headings: title on this line, === (h1) or --- (h2) on the next.
+    const next = lines[i + 1];
+    if (next !== undefined && line.trim() && !line.trimStart().startsWith('<')) {
+      if (SETEXT_H1_RE.test(next.trim()) || SETEXT_H2_RE.test(next.trim())) {
+        const level: DocHeadingLevel = SETEXT_H1_RE.test(next.trim()) ? 1 : 2;
+        const headingTitle = headingPlainText(line);
+        startSection(level, headingTitle);
+        i += 1; // consume underline
         continue;
       }
+    }
 
-      current = {
-        id: `h-${sections.length + 1}`,
-        title: headingTitle,
-        level,
-        anchor: slugify(headingTitle),
-        contentLines: [],
-        code: [],
-      };
-      sections.push(current);
+    const heading = matchStructuredHeading(line.trim());
+    if (heading) {
+      startSection(heading.level, heading.title);
       continue;
     }
 
