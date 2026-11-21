@@ -90,6 +90,27 @@ function SearchIcon({className = 'docsense-searchrow__icon'}) {
   );
 }
 
+function CloseIcon({className = 'docsense-close__icon'}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function breadcrumbText(hit) {
   if (hit.breadcrumbs && hit.breadcrumbs.length) {
     return hit.breadcrumbs.map((b) => b.label).join(' › ');
@@ -267,16 +288,28 @@ export default function SearchBar(props) {
   const hint = shortcutHint(searchBar.shortcut);
   const showResults = query.trim().length > 0;
 
+  const dismissOverlay = (event) => {
+    if (event.target === event.currentTarget) {
+      closeModal();
+    }
+  };
+
   const modal =
     open && typeof document !== 'undefined'
       ? createPortal(
-          <div className="docsense-overlay" role="presentation" onClick={closeModal}>
+          <div
+            className="docsense-overlay"
+            role="presentation"
+            onMouseDown={dismissOverlay}
+            onTouchEnd={dismissOverlay}
+          >
             <div
               className="docsense-modal"
               role="dialog"
               aria-modal="true"
               aria-label={searchBar.modalAriaLabel}
-              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
             >
               <div className="docsense-searchrow">
                 <SearchIcon />
@@ -290,6 +323,14 @@ export default function SearchBar(props) {
                   aria-label="Search query"
                 />
                 <span className="docsense-searchrow__hint">{hint}</span>
+                <button
+                  type="button"
+                  className="docsense-close"
+                  aria-label="Close search"
+                  onClick={closeModal}
+                >
+                  <CloseIcon />
+                </button>
               </div>
 
               <div className="docsense-toolbar">

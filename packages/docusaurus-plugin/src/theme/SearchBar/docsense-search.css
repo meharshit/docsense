@@ -158,6 +158,34 @@
   padding: 0.15rem 0.4rem;
 }
 
+.docsense-close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--docsense-stroke);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--docsense-ink);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.docsense-close:hover,
+.docsense-close:focus-visible {
+  border-color: var(--docsense-accent, #e3c77a);
+  color: var(--docsense-accent, #e3c77a);
+  outline: none;
+}
+
+.docsense-close__icon {
+  display: block;
+}
+
 .docsense-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -342,17 +370,22 @@ mark.docsense-mark {
   -webkit-box-decoration-break: clone;
 }
 
-/* Mobile search modal: edge-aware, stacked controls, no keyboard chrome. */
+/* Mobile search modal: edge-aware, stacked controls, room to tap outside + close. */
 @media screen and (max-width: 996px) {
   .docsense-overlay {
-    padding: 0.65rem 0.55rem max(0.65rem, env(safe-area-inset-bottom));
-    align-items: stretch;
+    padding: 0.75rem 0.55rem max(1.25rem, env(safe-area-inset-bottom));
+    align-items: flex-start;
   }
 
   .docsense-modal {
     width: 100%;
-    max-height: calc(100dvh - 1.3rem);
+    max-height: calc(100dvh - 2.4rem);
     border-radius: 14px;
+  }
+
+  .docsense-close {
+    width: 2.35rem;
+    height: 2.35rem;
   }
 
   .docsense-searchrow {
